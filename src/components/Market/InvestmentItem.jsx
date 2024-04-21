@@ -70,7 +70,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
             }</Td>
             <Td align="right" className=' border-0'>
                 <Stack direction='horizontal' gap={1} className='justify-content-end'>
-                    <Button size="sm" variant='warning' onClick={() => toggleInvestmentsModal(false, investment)}><TbPencil /></Button>
+                    <Button size="sm" variant='warning' onClick={() =>{console.log(investment); toggleInvestmentsModal(false, investment)}}><TbPencil /></Button>
                     <Button size="sm" variant='danger' onClick={() => removeFromInvestments(investment.id)}><TbTrash /></Button>
                 </Stack>
             </Td>

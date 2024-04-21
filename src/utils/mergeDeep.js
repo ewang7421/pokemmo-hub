@@ -18,7 +18,6 @@ export function mergeDeep(target, ...sources) {
 
   // might be bad?
   if (source instanceof Map) {
-    console.log("mapping");
     source.forEach((value, key) => {
       if (isObject(value)) {
         if (!target.has(key)) target.set(key, {});
