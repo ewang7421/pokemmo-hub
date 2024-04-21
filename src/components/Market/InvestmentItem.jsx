@@ -11,7 +11,7 @@ import { Button, Typography } from '../Atoms'
 import { ItemImage } from '../Items/ItemImage'
 import { ItemPrices } from '../Items/ItemPrices'
 
-export const InvestmentItem = ({ investment, onPriceUpdate }) => {
+export const InvestmentItem = ({itemId, investments, onPriceUpdate }) => {
     const { language } = useTranslations()
     const [currentPrice, setCurrentPrice] = useState({
         min: 0,
@@ -19,7 +19,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
         isLoading: true
     })
     const { toggleInvestmentsModal, removeFromInvestments, allItems } = useMarket()
-    const { n, _id, slug, category } = allItems.find(({ i }) => i === investment.i)
+    const { n, _id, slug, category } = allItems.find(({ i }) => i === itemId)
     const sellTotal = currentPrice.min * investment.quantity    //prices.calculateSellGain(currentPrice.min) for listing fee deduction
     const boughtTotal = investment.boughtPrice * investment.quantity
     const gainTotal = sellTotal - boughtTotal

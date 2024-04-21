@@ -7,7 +7,7 @@ import { useAccount } from "./AccountContext";
 import { useNotification } from "./NotificationContext";
 
 const MarketContext = createContext({
-  investments: [],
+  investments: new Map(),
   wishlist: [],
   allItems: [],
   toggleWishlist: (i) => null,
