@@ -64,12 +64,6 @@ export function MarketProvider({ children }) {
 
     if (investment) setEditInvestment(investment);
   };
-  /** 
-
-  let abcd = {investments: itemInvestment[]}
-  let itemInvestment = {i: 1012, entries: investmentEntry[]}
-  let investmentEntry = {id: "hash", boughtPrice: 1000, quantity: 200}
-   */
 
   const addToInvestments = (newInvestment) => {
     console.log("old: " + JSON.stringify(market.investments));
