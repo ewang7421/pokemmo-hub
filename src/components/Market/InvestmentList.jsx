@@ -89,7 +89,7 @@ export const InvestmentList = ({ i, title, fallbackIfEmpty, showTotals }) => {
                             {
                                 investments.map((investment) => (
                                     <InvestmentItem
-                                        key={investment.id}
+                                        key={investment.i}
                                         onPriceUpdate={(id, gain, spent) => addInvestmentGain(id, gain, spent)}
                                         investment={investment}
                                     />

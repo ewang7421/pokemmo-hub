@@ -20,8 +20,13 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
     })
     const { toggleInvestmentsModal, removeFromInvestments, allItems } = useMarket()
     const { n, _id, slug, category } = allItems.find(({ i }) => i === investment.i)
-    const sellTotal = currentPrice.min * investment.quantity    //prices.calculateSellGain(currentPrice.min) for listing fee deduction
-    const boughtTotal = investment.boughtPrice * investment.quantity
+    
+    const boughtTotal = investment.entries.reduce((total, currentEntry) => total + currentEntry.boughtPrice * currentEntry.quantity, 0);
+    const boughtQuantity = investment.entries.reduce((total, currentEntry) => total + currentEntry.quantity, 0);
+    const avgBoughtPrice = boughtTotal/boughtQuantity;
+
+
+    const sellTotal = currentPrice.min * boughtQuantity    //prices.calculateSellGain(currentPrice.min) for listing fee deduction
     const gainTotal = sellTotal - boughtTotal
     const gainPercent = gainTotal / boughtTotal * 100
 
@@ -46,10 +51,10 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
                 <ItemPrices onPriceUpdate={setCurrentPrice} i={investment.i} />
             </Td>
             <Td align="right" className=' border-0'>{
-                investment.quantity
+                boughtQuantity
             }</Td>
             <Td align="right" className=' border-0'>{
-                prices.format(investment.boughtPrice)
+                prices.format(avgBoughtPrice)
             }</Td>
             <Td align="right" className=' border-0'>{
                 prices.format(parseInt(boughtTotal))
