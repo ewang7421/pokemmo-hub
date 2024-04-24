@@ -82,8 +82,7 @@ export function MarketProvider({ children }) {
           entries: [newInvestmentEntry],
         },
       ];
-    }
-    if (existingInvestmentIndex !== -1) {
+    } else {
       const existingInvestment = updatedInvestments[existingInvestmentIndex];
       updatedInvestments = [
         ...updatedInvestments.slice(0, existingInvestmentIndex),
