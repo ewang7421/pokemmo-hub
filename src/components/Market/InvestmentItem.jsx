@@ -53,7 +53,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
 
   const Tr = isMobile ? SrTr : "tr";
   const Td = isMobile ? SrTd : "td";
-  
+
   return (
     <>
       <Tr>
@@ -186,7 +186,12 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
                 <Button
                   size="sm"
                   variant="warning"
-                  onClick={() => toggleInvestmentsModal(false, entry)}
+                  onClick={() =>
+                    toggleInvestmentsModal(false, {
+                      i: investment.i,
+                      ...entry,
+                    })
+                  }
                 >
                   <TbPencil />
                 </Button>

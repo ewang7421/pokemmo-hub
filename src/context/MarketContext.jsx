@@ -66,7 +66,6 @@ export function MarketProvider({ children }) {
   };
 
   const addToInvestments = (newInvestment) => {
-    console.log("old: " + JSON.stringify(market.investments));
     const { id, boughtPrice, quantity } = newInvestment;
     const newInvestmentEntry = { id, boughtPrice, quantity };
 
@@ -99,44 +98,62 @@ export function MarketProvider({ children }) {
         investments: updatedInvestments,
       },
     });
-
-    console.log("new: " + JSON.stringify(market.investments));
     throwConfetti(2);
     showNotification("Investment created! View it at the investments page.");
     resetInvestment();
   };
 
-  const handleEditInvestment = (investment) => {
-    updateAccount({
-      market: {
-        ...market,
-        investments: market.investments.map((item) =>
-          item.id === investment.id ? investment : item
-        ),
-      },
-    });
+  const handleEditInvestment = (newInvestment) => {
+    const { id, boughtPrice, quantity } = newInvestment;
+    const newInvestmentEntry = { id, boughtPrice, quantity };
+
+    const existingInvestmentIndex = market.investments.findIndex(
+      (existingInvestment) => existingInvestment.i === newInvestment.i
+    );
+    if (existingInvestmentIndex !== -1) {
+      const existingInvestment = market.investments[existingInvestmentIndex];
+      console.log("old: " + JSON.stringify(existingInvestment));
+      console.log(
+        "new: " +
+          JSON.stringify({
+            ...existingInvestment,
+            entries: existingInvestment.entries.map((entry) =>
+              entry.id === newInvestment.id ? newInvestmentEntry : entry
+            ),
+          })
+      );
+      updateAccount({
+        market: {
+          ...market,
+          investments: [
+            ...market.investments.slice(0, existingInvestmentIndex),
+            {
+              ...existingInvestment,
+              entries: existingInvestment.entries.map((entry) =>
+                entry.id === newInvestment.id ? newInvestmentEntry : entry
+              ),
+            },
+            ...market.investments.slice(existingInvestmentIndex + 1),
+          ],
+        },
+      });
+    }
     resetInvestment();
   };
 
   const removeFromInvestments = (i, id) => {
     let updatedInvestments = market.investments;
-    const itemIndex = updatedInvestments.findIndex(
-      (investment) => investment.i === i
+    const existingInvestmentIndex = updatedInvestments.findIndex(
+      (existingInvestment) => existingInvestment.i === i
     );
-    if (itemIndex !== -1) {
-      const itemInvestment = updatedInvestments[itemIndex];
+    if (existingInvestmentIndex !== -1) {
+      const itemInvestment = updatedInvestments[existingInvestmentIndex];
       if (itemInvestment.entries.length === 1) {
-        console.log("remove last one");
-        console.log(
-          "updatedInvestments: " + JSON.stringify(updatedInvestments)
-        );
-        console.log(
-          "updatedInvestments.splice(itemIndex - 1, 1)" +
-            JSON.stringify(updatedInvestments.splice(itemIndex - 1, 1))
-        );
         updateAccount({
           market: {
-            investments: [...updatedInvestments.splice(itemIndex - 1, 1)],
+            investments: [
+              ...updatedInvestments.splice(existingInvestmentIndex - 1, 1),
+            ],
           },
         });
       } else {
@@ -144,14 +161,14 @@ export function MarketProvider({ children }) {
           market: {
             ...market,
             investments: [
-              ...updatedInvestments.slice(0, itemIndex),
+              ...updatedInvestments.slice(0, existingInvestmentIndex),
               {
-                ...updatedInvestments[itemIndex],
-                entries: updatedInvestments[itemIndex].entries.filter(
-                  (entry) => entry.id !== id
-                ),
+                ...updatedInvestments[existingInvestmentIndex],
+                entries: updatedInvestments[
+                  existingInvestmentIndex
+                ].entries.filter((entry) => entry.id !== id),
               },
-              ...updatedInvestments.slice(itemIndex + 1),
+              ...updatedInvestments.slice(existingInvestmentIndex + 1),
             ],
           },
         });
