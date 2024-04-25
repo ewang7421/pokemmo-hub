@@ -112,16 +112,6 @@ export function MarketProvider({ children }) {
     );
     if (existingInvestmentIndex !== -1) {
       const existingInvestment = market.investments[existingInvestmentIndex];
-      console.log("old: " + JSON.stringify(existingInvestment));
-      console.log(
-        "new: " +
-          JSON.stringify({
-            ...existingInvestment,
-            entries: existingInvestment.entries.map((entry) =>
-              entry.id === newInvestment.id ? newInvestmentEntry : entry
-            ),
-          })
-      );
       updateAccount({
         market: {
           ...market,
@@ -151,9 +141,9 @@ export function MarketProvider({ children }) {
       if (itemInvestment.entries.length === 1) {
         updateAccount({
           market: {
-            investments: [
-              ...updatedInvestments.splice(existingInvestmentIndex - 1, 1),
-            ],
+            investments: updatedInvestments.filter(
+              (investment) => investment.i !== i
+            ),
           },
         });
       } else {

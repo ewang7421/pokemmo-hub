@@ -118,7 +118,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
           <Button
             variant="success"
             className="d-flex justify-content-center"
-            onClick={() => toggleInvestmentsModal(investment.id)}
+            onClick={() => toggleInvestmentsModal(investment.i)}
           >
             <TbPlus />
           </Button>
