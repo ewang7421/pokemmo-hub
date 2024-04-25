@@ -118,15 +118,45 @@ export function MarketProvider({ children }) {
     resetInvestment();
   };
 
-  const removeFromInvestments = (id) => {
-    updateAccount({
-      market: {
-        ...market,
-        investments: market.investments.filter(
-          (investment) => investment.id !== id
-        ),
-      },
-    });
+  const removeFromInvestments = (i, id) => {
+    let updatedInvestments = market.investments;
+    const itemIndex = updatedInvestments.findIndex(
+      (investment) => investment.i === i
+    );
+    if (itemIndex !== -1) {
+      const itemInvestment = updatedInvestments[itemIndex];
+      if (itemInvestment.entries.length === 1) {
+        console.log("remove last one");
+        console.log(
+          "updatedInvestments: " + JSON.stringify(updatedInvestments)
+        );
+        console.log(
+          "updatedInvestments.splice(itemIndex - 1, 1)" +
+            JSON.stringify(updatedInvestments.splice(itemIndex - 1, 1))
+        );
+        updateAccount({
+          market: {
+            investments: [...updatedInvestments.splice(itemIndex - 1, 1)],
+          },
+        });
+      } else {
+        updateAccount({
+          market: {
+            ...market,
+            investments: [
+              ...updatedInvestments.slice(0, itemIndex),
+              {
+                ...updatedInvestments[itemIndex],
+                entries: updatedInvestments[itemIndex].entries.filter(
+                  (entry) => entry.id !== id
+                ),
+              },
+              ...updatedInvestments.slice(itemIndex + 1),
+            ],
+          },
+        });
+      }
+    }
   };
 
   return (
