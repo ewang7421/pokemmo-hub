@@ -75,6 +75,7 @@ export const InvestmentList = ({ i, title, fallbackIfEmpty, showTotals }) => {
                     <Table responsive={true} withBaseStyles={{ breakpoint: "920px" }}>
                         <Thead>
                             <Tr>
+                                <Th></Th>
                                 <Th>Name</Th>
                                 <Th>{t('Price and Supply')}</Th>
                                 <Th align="right">{t('Quantity')}</Th>

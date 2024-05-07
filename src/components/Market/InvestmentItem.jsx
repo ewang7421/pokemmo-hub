@@ -25,6 +25,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
     change: 0,
     isLoading: true,
   });
+  const [showEntries, setShowEntries] = useState(false);
   const { toggleInvestmentsModal, removeFromInvestments, allItems } =
     useMarket();
   const { n, _id, slug, category } = allItems.find(
@@ -57,6 +58,15 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
   return (
     <>
       <Tr>
+        <Td className="border-0">
+          <Button
+            onClick={() => {
+              setShowEntries(!showEntries);
+            }}
+          >
+            toggle
+          </Button>
+        </Td>
         <Td
           component="th"
           scope="row"
@@ -131,7 +141,8 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
         const entryGainTotal = entrySellTotal - entryBoughtTotal;
         const entrygainPercent = (entryGainTotal / entryBoughtTotal) * 100;
         return (
-          <Tr>
+          <Tr className={showEntries ? "" : "d-none"}>
+            <Td className="border-0"></Td>
             <Td
               component="th"
               scope="row"
