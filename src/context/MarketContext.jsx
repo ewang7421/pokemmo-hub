@@ -103,7 +103,7 @@ export function MarketProvider({ children }) {
     resetInvestment();
   };
 
-  const handleEditInvestment = (newInvestment) => {
+  const handleEditInvestmentEntry = (newInvestment) => {
     const { id, boughtPrice, quantity } = newInvestment;
     const newInvestmentEntry = { id, boughtPrice, quantity };
 
@@ -199,7 +199,7 @@ export function MarketProvider({ children }) {
             toggleInvestmentsModal,
             addToInvestments,
             removeFromInvestments,
-            handleEditInvestment,
+            handleEditInvestmentEntry: handleEditInvestmentEntry,
           }}
         >
           <Modal
@@ -215,7 +215,7 @@ export function MarketProvider({ children }) {
                 toggleInvestmentsModal();
               }}
               onUpdate={(investment) => {
-                handleEditInvestment(investment);
+                handleEditInvestmentEntry(investment);
                 toggleInvestmentsModal();
               }}
               updateInvestment={editInvestment}

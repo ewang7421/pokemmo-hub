@@ -41,11 +41,11 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
     (total, currentEntry) => total + currentEntry.quantity,
     0
   );
-  const avgBoughtPrice = boughtTotal / boughtQuantity;
-
   const sellTotal = currentPrice.min * boughtQuantity; //prices.calculateSellGain(currentPrice.min) for listing fee deduction
   const gainTotal = sellTotal - boughtTotal;
   const gainPercent = (gainTotal / boughtTotal) * 100;
+
+  const avgBoughtPrice = boughtTotal / boughtQuantity;
 
   useEffect(() => {
     if (currentPrice.isLoading) return;
@@ -87,9 +87,9 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
         </Td>
         <Td align="right" className=" border-0">
           {boughtQuantity}
-        </Td>
+        </Td> 
         <Td align="right" className=" border-0">
-          {prices.format(avgBoughtPrice)}
+          {prices.format(parseFloat(avgBoughtPrice.toFixed(2)))}
         </Td>
         <Td align="right" className=" border-0">
           {prices.format(parseInt(boughtTotal))}
@@ -143,11 +143,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
         return (
           <Tr className={showEntries ? "" : "d-none"}>
             <Td className="border-0"></Td>
-            <Td
-              component="th"
-              scope="row"
-              className="d-flex align-items-start border-0"
-            ></Td>
+            <Td className="border-0"></Td>
             <Td align="right" className=" border-0"></Td>
             <Td align="right" className=" border-0">
               {entry.quantity}
