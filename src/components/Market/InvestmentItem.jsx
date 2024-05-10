@@ -3,22 +3,15 @@ import React, { useEffect, useState } from "react";
 import { Placeholder, Stack } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
 import { TbPencil, TbTrash, TbPlus } from "react-icons/tb";
-import {
-  Td as SrTd,
-  Tr as SrTr,
-  Thead,
-  Tbody,
-  Th,
-} from "react-super-responsive-table";
+import { Td as SrTd, Tr as SrTr } from "react-super-responsive-table";
 import { useMarket } from "../../context/MarketContext";
 import { useTranslations } from "../../context/TranslationsContext";
 import { prices } from "../../utils/prices";
-import { Button, Typography, Table } from "../Atoms";
+import { Button, Typography } from "../Atoms";
 import { ItemImage } from "../Items/ItemImage";
 import { ItemPrices } from "../Items/ItemPrices";
-import { Accordion } from "react-bootstrap";
 
-export const InvestmentItem = ({ investment, onPriceUpdate }) => {
+export const InvestmentItem = ({ investment, onPriceUpdate, onRemoveItem }) => {
   const { language } = useTranslations();
   const [currentPrice, setCurrentPrice] = useState({
     min: 0,
@@ -49,7 +42,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
 
   useEffect(() => {
     if (currentPrice.isLoading) return;
-    onPriceUpdate(investment.id, gainTotal, boughtTotal);
+    onPriceUpdate(investment.i, gainTotal, boughtTotal);
   }, [currentPrice, gainTotal, boughtTotal]);
 
   const Tr = isMobile ? SrTr : "tr";
@@ -87,7 +80,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
         </Td>
         <Td align="right" className=" border-0">
           {boughtQuantity}
-        </Td> 
+        </Td>
         <Td align="right" className=" border-0">
           {prices.format(parseFloat(avgBoughtPrice.toFixed(2)))}
         </Td>
@@ -205,7 +198,12 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
                 <Button
                   size="sm"
                   variant="danger"
-                  onClick={() => removeFromInvestments(investment.i, entry.id)}
+                  onClick={() => {
+                    if (investment.entries.length === 1) {
+                      onRemoveItem(investment.i);
+                    }
+                    removeFromInvestments(investment.i, entry.id);
+                  }}
                 >
                   <TbTrash />
                 </Button>
