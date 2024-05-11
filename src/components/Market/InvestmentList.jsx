@@ -23,7 +23,6 @@ export const InvestmentList = ({ i, title, fallbackIfEmpty, showTotals }) => {
   let { investments } = useMarket();
 
   const addInvestmentGain = (i, gain, spent) => {
-    console.log("adding investment");
     setInvestmentsGain((prev) => {
       const itemIndex = prev.findIndex((item) => item.i === i);
       if (!prev.length || itemIndex === -1)
