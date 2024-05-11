@@ -11,14 +11,19 @@ import { Button, Typography } from "../Atoms";
 import { ItemImage } from "../Items/ItemImage";
 import { ItemPrices } from "../Items/ItemPrices";
 
-export const InvestmentItem = ({ investment, onPriceUpdate, onRemoveItem }) => {
+export const InvestmentItem = ({
+  investment,
+  onPriceUpdate,
+  onRemoveItem,
+  showAllEntries,
+}) => {
   const { language } = useTranslations();
   const [currentPrice, setCurrentPrice] = useState({
     min: 0,
     change: 0,
     isLoading: true,
   });
-  const [showEntries, setShowEntries] = useState(false);
+  const [showEntries, setShowEntries] = useState(showEntries);
   const { toggleInvestmentsModal, removeFromInvestments, allItems } =
     useMarket();
   const { n, _id, slug, category } = allItems.find(
@@ -45,6 +50,10 @@ export const InvestmentItem = ({ investment, onPriceUpdate, onRemoveItem }) => {
     onPriceUpdate(investment.i, gainTotal, boughtTotal);
   }, [currentPrice, gainTotal, boughtTotal]);
 
+  useEffect(() => {
+    setShowEntries(showAllEntries);
+  }, [showAllEntries]);
+
   const Tr = isMobile ? SrTr : "tr";
   const Td = isMobile ? SrTd : "td";
 
@@ -52,13 +61,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate, onRemoveItem }) => {
     <>
       <Tr>
         <Td className="border-0">
-          <Button
-            onClick={() => {
-              setShowEntries(!showEntries);
-            }}
-          >
-            toggle
-          </Button>
+          <Button onClick={() => setShowEntries(!showEntries)}>toggle</Button>
         </Td>
         <Td
           component="th"

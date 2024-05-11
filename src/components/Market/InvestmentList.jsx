@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Stack } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 import { isMobile, isTablet } from "react-device-detect";
 import {
   Table as SrTable,
@@ -19,6 +19,7 @@ export const InvestmentList = ({ i, title, fallbackIfEmpty, showTotals }) => {
   const { t } = useTranslations();
   const [investmentsGain, setInvestmentsGain] = useState([]);
   const [totals, setTotals] = useState({});
+  const [showAllEntries, setShowAllEntries] = useState(false);
   let { investments } = useMarket();
 
   const addInvestmentGain = (i, gain, spent) => {
@@ -78,7 +79,11 @@ export const InvestmentList = ({ i, title, fallbackIfEmpty, showTotals }) => {
         <Table responsive={true} withBaseStyles={{ breakpoint: "920px" }}>
           <Thead>
             <Tr>
-              <Th></Th>
+              <Th>
+                <Button onClick={() => setShowAllEntries(!showAllEntries)}>
+                  Expand All
+                </Button>
+              </Th>
               <Th>Name</Th>
               <Th>{t("Price and Supply")}</Th>
               <Th align="right">{t("Quantity")}</Th>
@@ -101,6 +106,7 @@ export const InvestmentList = ({ i, title, fallbackIfEmpty, showTotals }) => {
                     investmentsGain.filter((investment) => investment.i === i)
                   )
                 }
+                showAllEntries={showAllEntries}
                 investment={investment}
               />
             ))}
